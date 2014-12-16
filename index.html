@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="Nevent">
+    <head>
+        <title>NearEvents</title>
+        <script src= "bower_components/angular/angular.js"></script>
+        <script src= "bower_components/jquery/dist/jquery.js"></script>
+        <script src= "bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src= "bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src= "bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src= "bower_components/angular-ui-utils/ui-utils.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&"></script>
+        <script src= "bower_components/angular-ui-map/ui-map.js"></script>
+        <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+        <script src= "bower_components/ng-tags-input/ng-tags-input.min.js"></script>
+        <script src="js/soci/socialite.min.js"></script>
+        <script src="js/app.js"></script>
+        <link rel="import" href="bower_components/paper-slider/paper-slider.html">
+        <link rel="import" href="bower_components/paper-radio-group/paper-radio-group.html">
+        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+            <link rel="stylesheet" type="text/css" href="bower_components/ng-tags-input/ng-tags-input.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+            <script>
+                function onGoogleReady() {
+                 angular.bootstrap(document.getElementById("map"), ['Nevent']);
+                }
+            </script>
+    </head>
+    <body>
+        <div ui-view></div>
+    </body>
+</html>

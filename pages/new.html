@@ -1,0 +1,76 @@
+<div id="Deheader"><div id="logoN">NearEvent</div></div>
+
+
+<core-card id="core_card2" layout vertical center>
+    <div>
+        <paper-radio-group selected="Create">
+                 <paper-radio-button name="Create" label="Create Event" ng-click="setX(0)"></paper-radio-button>
+                 <paper-radio-button name="Look" label="Look for Event Planner" ng-click="setX(1)"></paper-radio-button>
+        </paper-radio-group>
+        <div ng-show="x">
+            <input type="text" id="CompCountry" placeholder="Country" class="form-control"/></br>
+            <input type="text" id="CompCity" placeholder="City" class="form-control"/></br>
+            <button class="btn btn-danger" ng-click="SearchByCC()">Search</button><br>
+            
+            <input type="text" id="CompanyName" placeholder="Company Name" class="form-control"/></br>
+            <button class="btn btn-danger" ng-click= "SearchByCompany()">Search</button><br>
+            
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">Category<span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu" >
+                <li ng-repeat="Category in Categories"><a ng-click="GetCategory(Category.option,Category.id)">{{Category.option}}</a></li></ul>
+            </div>
+            <button class="btn btn-danger" ng-click= "">Search</button><br>
+        </div>
+        <div ng-hide="x">
+            <input type="text" id="EventName" placeholder="Event Name" class="form-control"/></br>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event,1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </p>
+                </div>
+            </div>
+            <input type="text" id="EventDesc" placeholder="Description" class="form-control"/></br>
+            <input type="text" id="EventCountry" placeholder="Country" class="form-control"/></br>
+            <input type="text" id="EventCity" placeholder="City" class="form-control"/></br>
+            <input type="text" id="EventPhone" placeholder="Phone" class="form-control"/></br>
+            <input type="text" id="EventEmail" placeholder="Email" class="form-control"/></br>
+            <div class="btn-group" dropdown is-open="status.isopen">
+                <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">Category<span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu" >
+                <li ng-repeat="Category in Categories"><a ng-click="GetCategory(Category.option,Category.id)">{{Category.option}}</a></li></ul>
+            </div>
+            <div>{{Category}}</div>
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-danger dropdown-toggle"  dropdown-toggle ng-disabled="disabled">SubCategory<span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu" >
+                <li ng-repeat="SubCategory in SubCategories | filter: CategoryID"><a ng-click="GetSubCategory(SubCategory.option)">{{SubCategory.option}}</a></li></ul>
+            </div>
+            <div>{{SubCategory}}</div>
+            <div>Keywords: <tags-input ng-model="tags"></tags-input></div>
+            <div>Tickets:
+                <div ng-repeat="Ticket in Tickets">
+                    <select id="TicketType{{Ticket.id}}" ng-blur="GetTicketType(Ticket.id)">
+                        <option value="Free">Free</option>
+                        <option value="Paid">Paid</option>
+                    </select>
+                    <input type="text" id="TicketName{{Ticket.id}}"  placeholder="Name" class="form-control" ng-blur="GetTicketName(Ticket.id)"/>
+                    <input type="number" id="TicketNumber{{Ticket.id}}" min=0 placeholder="Number" class="form-control" ng-blur="GetTicketNumbers(Ticket.id)"/>
+                    <input type="number" id="TicketPrice{{Ticket.id}}" min=0 placeholder="Price in JOD" class="form-control" ng-blur="GetTicketPrice(Ticket.id)"/>
+                </div>
+            </div>
+            <button class="btn btn-danger" ng-click= "NewTicket()">Add Ticket</button><br>
+            <paper-radio-group selected="Public">
+                <paper-radio-button name="Public" label="Public"></paper-radio-button>
+                <paper-radio-button name="Private" label="Private"></paper-radio-button>
+            </paper-radio-group>
+            
+            <button class="btn btn-primary" ng-click="CreateEvent()">Create Event</button>
+        </div>
+    </div>
+
+</core-card>

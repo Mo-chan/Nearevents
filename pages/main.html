@@ -1,0 +1,156 @@
+<div id="map_canvas" ui-map="myMap" ui-options="mapOptions" ui-event="{'map-idle' : 'onMapIdle()'}"></div>
+        
+        <!--In addition to creating the markers on the map, div elements with existing google.maps.Marker object should be created to hook up with events -->
+<div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]" ui-event="{'map-click': 'markerClicked(marker)'}"></div>
+<div id="header">
+    <div id="logoN">NearEvent
+        <button type="button" ng-click="addEvent()" class="btn btn-primary" ><i class="glyphicon glyphicon-plus"></i></button>
+        <button type="button" ng-click="Signup();x=1" class="btn btn-primary" ><i class="glyphicon glyphicon-arrow-up"></i>Signup</button>
+        <button type="button" ng-click="Signin()" class="btn btn-primary" ><i class="glyphicon glyphicon-play-circle"></i>Signin</button>
+    </div>
+</div>   
+<div id="search">
+    <div ng-hide="checked">
+        <p class="input-group" >  
+            <input type="text" placeholder={{searchInput}}  ng-enter="Search()" class="form-control" ng-model="asyncSelected" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations"/>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-model="checked" ng-click="getLoc(); checked=1"><i class="glyphicon glyphicon-screenshot"></i></button>
+            </span>
+        </p>
+        <button type="button" ng-click="AdvancedSearch()" class="btn btn-primary">Advance Search</button>
+        <div class="btn-group" dropdown is-open="status.isopen">
+            <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle ng-disabled="disabled">Search By <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu" >
+                <li ng-repeat="option in searchOptions"><a ng-click="searchInputChanger(option.option)">{{option.option}}</a></li> 
+            </ul>
+        </div>
+    </div>
+    <div ng-show="checked">
+        </br>
+        <h4>Looking for Events in {{city}}</h4> 
+    </div>
+</div>
+    
+    
+<script type="text/ng-template" id="addEvent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Add Event</h3>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+        <button type="button" class="btn btn-success" ng-click="ok()"> + Create New Event</button></br>
+        <span>or</span></br>
+        <button type="button" class="btn btn-info">  Import From Facebook</button>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+    
+<script type="text/ng-template" id="Signup.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Sign up</h3>
+    </div>
+    <div class="modal-body">
+        <paper-radio-group selected="User">
+            <paper-radio-button name="User" label="User" ng-click="setX(0)"></paper-radio-button>
+            <paper-radio-button name="Company" label="Company" ng-click="setX(1)"></paper-radio-button>
+        </paper-radio-group>  
+        <div ng-show="x">
+            <input type="text" id="CName" placeholder="Company Name" class="form-control"/></br>
+            <input type="text" id="CUName" placeholder="Company User Name" class="form-control" ng-blur="CheckUser()"/>{{checking}}</br>
+            <input type="email" id="CEmail" placeholder="Email" class="form-control" ng-blur="CheckEmail()"/>{{cemail}}</br>
+            <input type="password" id="CPassword" placeholder="Password" class="form-control"/></br>
+            <input type="password" id="CRPassword" placeholder="Re-Password" class="form-control" ng-blur="CheckPassword()"/>{{matched}}</br>
+            <input type="text" id="CWebsite" placeholder="Website" class="form-control"/></br>
+            <input type="text" id="CPhone" placeholder="Phone" class="form-control" ng-blur="CheckPhone()"/></br>
+        </div>
+        <div ng-hide="x">
+            <input type="text" id="FName" placeholder="First Name" class="form-control" required/></br>
+            <input type="text" id="LName" placeholder="Last Name" class="form-control" required/></br>
+            <input type="text" id="NName" placeholder="User Name" class="form-control" required ng-blur="CheckUser()"/>{{checking}}</br>
+            <input type="email" id="UEmail" placeholder="Email" class="form-control" required ng-blur="CheckEmail()"/>{{cemail}}</br>
+            <input type="password" id="UPassword"  placeholder="Password" class="form-control" required/></br>
+            <input type="password" id="URPassword" placeholder="Re-Password" class="form-control" required ng-blur="CheckPassword()"/>{{matched}}</br>
+            <input type="text" id="UPhone" placeholder="Phone" class="form-control" required ng-blur="CheckPhone()"/></br>
+        </div>
+        <span>or</span></br>
+        <button type="button" class="btn btn-success" ng-click="">Twitter</button>
+        <button type="button" class="btn btn-info" ng-click="">Facebook</button>
+        <button type="button" class="btn btn-danger" ng-click="">Google+</button>
+        <button type="button" class="btn btn-info" ng-click="">Linkedin</button>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()" ng-disabled = "y">Signup</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+    
+    
+<script type="text/ng-template" id="Signin.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Sign in</h3>
+    </div>
+    <div class="modal-body">
+        <input type="email" id="LoginEmail" placeholder="Email" class="form-control"/></br>
+        <input type="password" id="LoginPassword" placeholder="Password" class="form-control"/></br>
+        <span>or</span></br>
+        <button type="button" class="btn btn-success">Twitter</button>
+        <button type="button" class="btn btn-info">Facebook</button>
+        <button type="button" class="btn btn-danger">Google+</button>
+        <button type="button" class="btn btn-info">Linkedin</button>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Signin</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+    
+    
+<script type="text/ng-template" id="Advaced.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Advanced Search</h3>
+    </div>
+    <div class="modal-body">
+        <paper-radio-group selected="Event name">
+            <paper-radio-button name="Eventname" label="Event name" ng-click="setSearch('Event name')"></paper-radio-button>
+            <paper-radio-button name="Category" label="Category" ng-click="setSearch('Category')"></paper-radio-button>
+            <paper-radio-button name="Company" label="Company" ng-click="setSearch('Company')"></paper-radio-button>
+            <paper-radio-button name="City" label="City" ng-click="setSearch('City')"></paper-radio-button>
+            <paper-radio-button name="Venue" label="Venue" ng-click="setSearch('Venue')"></paper-radio-button>
+        </paper-radio-group> 
+        <input type="text" id="AdSearch" placeholder={{AsearchInput}} class="form-control"/></br>
+        <paper-radio-group selected="Free">
+            <paper-radio-button name="Free" label="Free" ng-click="setX(0)"></paper-radio-button>
+            <paper-radio-button name="Paid" label="Paid" ng-click="setX(1)"></paper-radio-button>
+        </paper-radio-group>
+        <div ng-show="x">Price(in JOD): <paper-slider min="1" max="200" value="200" pin="true" ></paper-slider></div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event,1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event,2)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+        </div>   
+        <br>
+        Distance(in KM): <paper-slider min="0" max="200" value="200" pin="true"></paper-slider>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Search</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
