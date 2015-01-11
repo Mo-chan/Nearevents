@@ -1,17 +1,27 @@
 <div id="Deheader"><div id="logoN">NearEvent</div></div>
 
-<div>
-    <img src="css/user.jpg" alt="user">
-    <div id="UPreef">Preef</div>
-    <div id="ULEA">Latest Events Attended</div>
-    <div id="UUpcomingEvents">Upcoming Events</div>
-    <div id="USponsoredEvents">Sponsored Events</div>
-    <div id="UFeedback">Feedback</div>
-    <div id="UCalender">Calender</div>
+<div class="mid">
+  <img src="css/user.jpg" alt="user" class="img-circle" style="height:200px; width:200px;">
+  <div id="UPreef">Caption</div>
 </div>
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <a ui-sref="Profile.about"><button type="button" class="btn btn-default">About</button></a>
+  </div>
+  <div class="btn-group" role="group">
+    <a ui-sref="Profile.upcoming"><button type="button" class="btn btn-default">Upcoming events</button></a>
+  </div>
+  <div class="btn-group" role="group">
+    <a ui-sref="Profile.myevents"><button type="button" class="btn btn-default">My events</button></a>
+  </div>
+</div>
+<div>
+    
+ <div ui-view></div>   
 
 
-<footer>
+<footer class="footer">
+
     <div>About Us</div>
     <div>FAQ</div>
     <div>Terms & Services</div>

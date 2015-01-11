@@ -1,0 +1,64 @@
+<div id="Deheader"><div id="logoN">NearEvent</div></div>
+<paper-radio-group selected="Up">
+            <paper-radio-button name="Up" label="Signup" ng-click="setV(0)"></paper-radio-button>
+            <paper-radio-button name="In" label="Signin" ng-click="setV(1)"></paper-radio-button>
+        </paper-radio-group>
+<div ng-hide="v">
+<div class="modal-header">
+        <h3 class="modal-title">Sign up</h3>
+    </div>
+    <div class="modal-body">
+        <paper-radio-group selected="User">
+            <paper-radio-button name="User" label="User" ng-click="setX(0)"></paper-radio-button>
+            <paper-radio-button name="Company" label="Company" ng-click="setX(1)"></paper-radio-button>
+        </paper-radio-group>  
+        <div ng-show="x">
+            <input type="text" id="CName" placeholder="Company Name" class="form-control"/></br>
+            <input type="text" id="CUName" placeholder="Company User Name" class="form-control" ng-blur="CheckUser()"/>{{checking}}</br>
+            <input type="email" id="CEmail" placeholder="Email" class="form-control" ng-blur="CheckEmail()"/>{{cemail}}</br>
+            <input type="password" id="CPassword" placeholder="Password" class="form-control"/></br>
+            <input type="password" id="CRPassword" placeholder="Re-Password" class="form-control" ng-blur="CheckPassword()"/>{{matched}}</br>
+            <input type="text" id="CWebsite" placeholder="Website" class="form-control"/></br>
+            <input type="text" id="CPhone" placeholder="Phone" class="form-control" ng-blur="CheckPhone()"/></br>
+        </div>
+        <div ng-hide="x">
+            <input type="text" id="FName" placeholder="First Name" class="form-control" required/></br>
+            <input type="text" id="LName" placeholder="Last Name" class="form-control" required/></br>
+            <input type="text" id="NName" placeholder="User Name" class="form-control" required ng-blur="CheckUser()"/>{{checking}}</br>
+            <input type="email" id="UEmail" placeholder="Email" class="form-control" required ng-blur="CheckEmail()"/>{{cemail}}</br>
+            <input type="password" id="UPassword"  placeholder="Password" class="form-control" required/></br>
+            <input type="password" id="URPassword" placeholder="Re-Password" class="form-control" required ng-blur="CheckPassword()"/>{{matched}}</br>
+            <input type="text" id="UPhone" placeholder="Phone" class="form-control" required ng-blur="CheckPhone()"/></br>
+            <span>or</span></br>
+            <button type="button" class="btn btn-info" ng-click="SocialLogin('facebook')">Facebook</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()" ng-disabled = "y">Signup</button>
+    </div>
+ </div>   
+<div ng-show="v">   
+    <div class="modal-header">
+        <h3 class="modal-title">Sign in</h3>
+    </div>
+    <div class="modal-body">
+         <paper-radio-group selected="LUser">
+            <paper-radio-button name="LUser" label="User" ng-click="setM(0)"></paper-radio-button>
+            <paper-radio-button name="LCompany" label="Company" ng-click="setM(1)"></paper-radio-button>
+        </paper-radio-group>
+        <div ng-show="m">
+            <input type="email" id="CLoginEmail" placeholder="Company Email" class="form-control"/></br>
+            <input type="password" id="CLoginPassword" placeholder="Password" class="form-control"/></br>
+        </div>
+        <div ng-hide="m">
+            <input type="email" id="LoginEmail" placeholder="Email" class="form-control"/></br>
+            <input type="password" id="LoginPassword" placeholder="Password" class="form-control"/></br>
+            <span>or</span></br>
+            <button type="button" class="btn btn-info" ng-click="SocialLogin('facebook')">Facebook</button>
+        </div>
+        
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Signin</button>
+    </div>
+    </div> 

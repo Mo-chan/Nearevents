@@ -7,12 +7,20 @@
         <button type="button" ng-click="addEvent()" class="btn btn-primary" ><i class="glyphicon glyphicon-plus"></i></button>
         <button type="button" ng-click="Signup();x=1" class="btn btn-primary" ><i class="glyphicon glyphicon-arrow-up"></i>Signup</button>
         <button type="button" ng-click="Signin()" class="btn btn-primary" ><i class="glyphicon glyphicon-play-circle"></i>Signin</button>
+        <button type="button" ng-click="GotoEvents()" class="btn btn-primary" ><i class="glyphicon glyphicon-play-circle"></i>Events</button>
+        <div class="dropdown" style="top: -38px; margin-left: 88%;">
+            <img src="css/user.jpg" alt="user" class="img-circle dropdown-toggle"id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" style="height:40px; width:40px;">
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Profile</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Signout</a></li>
+              </ul>
+        </div>
     </div>
 </div>   
 <div id="search">
     <div ng-hide="checked">
         <p class="input-group" >  
-            <input type="text" placeholder={{searchInput}}  ng-enter="Search()" class="form-control" ng-model="asyncSelected" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations"/>
+            <input id="mainSearch" type="text" placeholder={{searchInput}}  ng-enter="Search()" class="form-control" ng-model="asyncSelected" typeahead="state as state.option for state in TypeAheadList | filter:{option:$viewValue}" typeahead-loading="loadingLocations"/>
             <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-model="checked" ng-click="getLoc(); checked=1"><i class="glyphicon glyphicon-screenshot"></i></button>
             </span>
@@ -39,7 +47,7 @@
     <div class="modal-body" style="text-align: center;">
         <button type="button" class="btn btn-success" ng-click="ok()"> + Create New Event</button></br>
         <span>or</span></br>
-        <button type="button" class="btn btn-info">  Import From Facebook</button>
+        <button type="button" class="btn btn-info" ng-click="importEvent()">  Import From Facebook</button>
     </div>
     <div class="modal-footer">
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
@@ -72,12 +80,9 @@
             <input type="password" id="UPassword"  placeholder="Password" class="form-control" required/></br>
             <input type="password" id="URPassword" placeholder="Re-Password" class="form-control" required ng-blur="CheckPassword()"/>{{matched}}</br>
             <input type="text" id="UPhone" placeholder="Phone" class="form-control" required ng-blur="CheckPhone()"/></br>
+            <span>or</span></br>
+            <button type="button" class="btn btn-info" ng-click="SocialLogin('facebook')">Facebook</button>
         </div>
-        <span>or</span></br>
-        <button type="button" class="btn btn-success" ng-click="">Twitter</button>
-        <button type="button" class="btn btn-info" ng-click="">Facebook</button>
-        <button type="button" class="btn btn-danger" ng-click="">Google+</button>
-        <button type="button" class="btn btn-info" ng-click="">Linkedin</button>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()" ng-disabled = "y">Signup</button>
@@ -91,20 +96,40 @@
         <h3 class="modal-title">Sign in</h3>
     </div>
     <div class="modal-body">
-        <input type="email" id="LoginEmail" placeholder="Email" class="form-control"/></br>
-        <input type="password" id="LoginPassword" placeholder="Password" class="form-control"/></br>
-        <span>or</span></br>
-        <button type="button" class="btn btn-success">Twitter</button>
-        <button type="button" class="btn btn-info">Facebook</button>
-        <button type="button" class="btn btn-danger">Google+</button>
-        <button type="button" class="btn btn-info">Linkedin</button>
+         <paper-radio-group selected="User">
+            <paper-radio-button name="User" label="User" ng-click="setX(0)"></paper-radio-button>
+            <paper-radio-button name="Company" label="Company" ng-click="setX(1)"></paper-radio-button>
+        </paper-radio-group>
+        <div ng-show="x">
+            <input type="email" id="CLoginEmail" placeholder="Company Email" class="form-control"/></br>
+            <input type="password" id="CLoginPassword" placeholder="Password" class="form-control"/></br>
+        </div>
+        <div ng-hide="x">
+            <input type="email" id="LoginEmail" placeholder="Email" class="form-control"/></br>
+            <input type="password" id="LoginPassword" placeholder="Password" class="form-control"/></br>
+            <span>or</span></br>
+            <button type="button" class="btn btn-info" ng-click="SocialLogin('facebook')">Facebook</button>
+        </div>
+        
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">Signin</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>
-    
+
+<script type="text/ng-template" id="verify.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Account Activation</h3>
+    </div>
+    <div class="modal-body">
+        <div>The verification code has been sent to your email, please copy it to activate your account</div>
+            <input id="Verify" placeholder="Verification code" class="form-control"/></br>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Activate</button>
+    </div>
+</script>    
     
 <script type="text/ng-template" id="Advaced.html">
     <div class="modal-header">
@@ -123,12 +148,12 @@
             <paper-radio-button name="Free" label="Free" ng-click="setX(0)"></paper-radio-button>
             <paper-radio-button name="Paid" label="Paid" ng-click="setX(1)"></paper-radio-button>
         </paper-radio-group>
-        <div ng-show="x">Price(in JOD): <paper-slider min="1" max="200" value="200" pin="true" ></paper-slider></div>
+        <div ng-show="x">Price(in JOD): <paper-slider id="Price" min="1" max="200" value="200" pin="true" ></paper-slider></div>
         <br>
         <div class="row">
             <div class="col-md-6">
-                <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
+                Start Date:<p class="input-group">
+                    <input type="text" class="form-control" id="StartDate" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open($event,1)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
@@ -137,8 +162,8 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
+                End Date:<p class="input-group">
+                    <input type="text" class="form-control" id="EndDate" datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open($event,2)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
@@ -146,7 +171,6 @@
             </div>
         </div>   
         <br>
-        Distance(in KM): <paper-slider min="0" max="200" value="200" pin="true"></paper-slider>
     </div>
 
     <div class="modal-footer">

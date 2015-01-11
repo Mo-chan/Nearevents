@@ -3,24 +3,28 @@
 
     <div>
         
-        <img src="css/test.jpg" alt="banner">
-        <div id="ETitle">Title</div>
-        <div id="ETime">Time + <button type="button" class="btn" ng-click="AddtoCalender()">Add to calender</button></div>
-        <div id="EVenue">Venue</div>
-        <div id="ECreator">Created by + <button type="button" class="btn" ng-click="CFollow()">Follow</button> + <button type="button" class="btn" ng-click="">Promot for this event</button></div>
+        <img src={{EventResults.image}} alt="banner">
+        <div id="ETitle">Title: {{EventResults.name}}</div>
+        <div id="ETime">Start Time: {{EventResults.startTime}} , End Time : {{EventResults.endTime}} , Start Date: {{EventResults.startDate}} , End Date: {{EventResults.endDate}} 
+        <div id="EVenue">Venue : {{EventResults.venue}}</div>
+        <div id="ECreator">Created by: {{EventResults.ownername}}
         <div id="EYN">Are you going?</div>
         <button type="button" class="btn" ng-click="YGoing()">Yes</button>
+        <button type="button" class="btn" ng-click="MGoing()">Maybe</button>
         <button type="button" class="btn" ng-click="NGoing()">No</button>
         <div id="EInvite"><button type="button" class="btn" ng-click="Invite()">Invite</button></div>
-        <div id="EDesc">Description:</div>
+        <div id="ECity">City: {{EventResults.city}}</div>
+        <div id="ECountry">City: {{EventResults.country}}</div>
+        <div id="EEmail">City: {{EventResults.email}}</div>
+        <div id="EPhone">City: {{EventResults.phone}}</div>
+        <div id="EDesc">Description: {{EventResults.description}}</div>
         <div id="EGoing">Who's Going</div>
-        <div id="ETwitter">Twitter</div>
         <div id="EShare">Share</div>
         <ul class="social-buttons cf">
-            <li><a href="http://twitter.com/share" class="socialite twitter-share" data-text="Socialite.js" data-url="http://socialitejs.com" data-count="vertical" rel="nofollow" target="_blank"><span class="vhidden">Share on Twitter</span></a></li>
-            <li><a href="https://plus.google.com/share?url=http://socialitejs.com" class="socialite googleplus-one" data-size="tall" data-href="http://socialitejs.com" rel="nofollow" target="_blank"><span class="vhidden">Share on Google+</span></a></li>
+            <li><a href="http://twitter.com/share" class="socialite twitter-share" data-text= {{EventResults.name}} data-url="http://nearevents.net/#/{{EventResults.event_id}}" data-count="vertical" rel="nofollow" target="_blank"><span class="vhidden">Share on Twitter</span></a></li>
+            <li><a href="https://plus.google.com/share?url=http://nearevents.net/{{EventResults.event_id}}" class="socialite googleplus-one" data-size="tall" data-href="http://nearevents.net/#/{{EventResults.event_id}}" rel="nofollow" target="_blank"><span class="vhidden">Share on Google+</span></a></li>
             <li><a href="http://www.facebook.com/sharer.php?u=http://www.socialitejs.com&t=Socialite.js" class="socialite facebook-like" data-href="http://socialitejs.com" data-send="false" data-layout="box_count" data-width="60" data-show-faces="false" rel="nofollow" target="_blank"><span class="vhidden">Share on Facebook</span></a></li>
-            <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http://socialitejs.com&title=Socialite.js" class="socialite linkedin-share" data-url="http://socialitejs.com" data-counter="top" rel="nofollow" target="_blank"><span class="vhidden">Share on LinkedIn</span></a></li>
+            <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http://socialitejs.com&title=Socialite.js" class="socialite linkedin-share" data-url="http://nearevents.net/#/{{EventResults.event_id}}" data-counter="top" rel="nofollow" target="_blank"><span class="vhidden">Share on LinkedIn</span></a></li>
         </ul>
         <div id="ERates">Rates</div>
         <rating ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
@@ -30,7 +34,7 @@
 
 
 
-<footer>
+<footer class="footer">
     <div>About Us</div>
     <div>FAQ</div>
     <div>Terms & Services</div>

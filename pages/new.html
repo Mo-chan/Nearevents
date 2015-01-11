@@ -20,25 +20,44 @@
                 <ul class="dropdown-menu" role="menu" >
                 <li ng-repeat="Category in Categories"><a ng-click="GetCategory(Category.option,Category.id)">{{Category.option}}</a></li></ul>
             </div>
-            <button class="btn btn-danger" ng-click= "">Search</button><br>
+            <button class="btn btn-danger" ng-click= "SearchByCategory()">Search</button><br>
         </div>
         <div ng-hide="x">
             <input type="text" id="EventName" placeholder="Event Name" class="form-control"/></br>
+            Start Date:
             <div class="row">
                 <div class="col-md-6">
                     <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
+                    <input type="text" id="EventSDate" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open($event,1)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                     </p>
                 </div>
             </div>
+            End Date:
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="input-group">
+                    <input type="text" id="EventEDate" class="form-control" datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event,2)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </p>
+                </div>
+            </div>
+            Start Time:<timepicker id="startTime" ng-model="startTime" show-meridian="ismeridian"></timepicker>
+            End Time:<timepicker id="endTime" ng-model="endTime"  show-meridian="ismeridian"></timepicker>
             <input type="text" id="EventDesc" placeholder="Description" class="form-control"/></br>
             <input type="text" id="EventCountry" placeholder="Country" class="form-control"/></br>
             <input type="text" id="EventCity" placeholder="City" class="form-control"/></br>
             <input type="text" id="EventPhone" placeholder="Phone" class="form-control"/></br>
             <input type="text" id="EventEmail" placeholder="Email" class="form-control"/></br>
+            <input type="text" id="EventImage" placeholder="Cover Image" class="form-control"/></br>
+            <label class="checkbox">
+                <input type="checkbox" ng-model="Volunteer">
+                Need volunteers?
+            </label>
             <div class="btn-group" dropdown is-open="status.isopen">
                 <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">Category<span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu" >
@@ -64,12 +83,14 @@
                 </div>
             </div>
             <button class="btn btn-danger" ng-click= "NewTicket()">Add Ticket</button><br>
+            <button class="btn btn-danger" ng-click= "RemTicket()">Remove Ticket</button><br>
             <paper-radio-group selected="Public">
-                <paper-radio-button name="Public" label="Public"></paper-radio-button>
-                <paper-radio-button name="Private" label="Private"></paper-radio-button>
+                <paper-radio-button name="Public" label="Public" ng-click="EventType(0)"></paper-radio-button>
+                <paper-radio-button name="Private" label="Private" ng-click="EventType(1)"></paper-radio-button>
             </paper-radio-group>
+            <div ng-show="y"><button class="btn btn-primary" ng-click="Sign()">Sign-up/in</button></div>
+            <div ng-hide="y"><button class="btn btn-primary" ng-click="CreateEvent()">Create Event</button></div>
             
-            <button class="btn btn-primary" ng-click="CreateEvent()">Create Event</button>
         </div>
     </div>
 
